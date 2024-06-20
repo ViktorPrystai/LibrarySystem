@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+    <h2>Add New Book</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" name="description" required>
+        </div>
+        <div class="form-group">
+            <label for="count">Count</label>
+            <input type="number" class="form-control" id="count" name="count" required>
+        </div>
+        <div class="form-group">
+            <label for="authors">Authors</label>
+            <select multiple class="form-control" id="authors" name="authors">
+                {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.name }} {{ author.surname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Book</button>
+    </form>
+{% endblock %}

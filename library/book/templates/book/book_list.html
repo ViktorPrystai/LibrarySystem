@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Book List{% endblock %}
+
+{% block content %}
+    <h2>All Books</h2>
+    <form method="get" action="{% url 'book_list' %}" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search by title" aria-label="Search" name="q" value="{{ request.GET.q }}">
+        <select class="form-control mr-sm-2" name="author">
+            <option value="">All Authors</option>
+            {% for author in authors %}
+                <option value="{{ author.id }}" {% if request.GET.author == author.id|stringformat:"s" %}selected{% endif %}>
+                    {{ author.name }} {{ author.surname }}
+                </option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Authors</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.name }}</td>
+                    <td>{{ book.description }}</td>
+                    <td>
+                        {% for author in book.authors.all %}
+                            {{ author.name }} {{ author.surname }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'book_detail' book.id %}" class="btn btn-info">View</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

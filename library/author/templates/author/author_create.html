@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Create Author{% endblock %}
+
+{% block content %}
+    <h2>Create New Author</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="surname">Surname:</label>
+            <input type="text" name="surname" id="surname" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="patronymic">Patronymic:</label>
+            <input type="text" name="patronymic" id="patronymic" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Create Author</button>
+    </form>
+    <a href="{% url 'author_list' %}" class="btn btn-secondary mt-3">Back to Author List</a>
+{% endblock %}
