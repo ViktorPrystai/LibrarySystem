@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Order - Library Management System{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Create a New Order</h2>
+
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'create_order' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="book_id">Book ID:</label>
+                    <input type="number" class="form-control" id="book_id" name="book_id" required>
+                </div>
+                <div class="form-group">
+                    <label for="plated_end_at">Planned Return Date:</label>
+                    <input type="datetime-local" class="form-control" id="plated_end_at" name="plated_end_at" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Order</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

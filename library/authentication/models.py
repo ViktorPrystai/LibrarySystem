@@ -233,3 +233,12 @@ class CustomUser(AbstractBaseUser):
         returns str role name
         """
         return ROLE_CHOICES[self.role][1]
+
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_module_perms(self, app_label):
+        return self.is_superuser
+
+
+

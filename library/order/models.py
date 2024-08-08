@@ -66,7 +66,14 @@ class Order(models.Model):
                 |   'plated_end_at': 1509402866,
                 | }
                 """
-        pass
+        return {
+            'id': self.id,
+            'book': self.book.id,
+            'user': self.user.id,
+            'created_at': int(self.created_at.timestamp()),
+            'end_at': int(self.end_at.timestamp()) if self.end_at else None,
+            'plated_end_at': int(self.plated_end_at.timestamp())
+        }
 
     @staticmethod
     def create(user, book, plated_end_at):

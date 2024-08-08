@@ -22,6 +22,7 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('', include('book.urls')),
     path('', include('author.urls')),
+    path('', include('order.urls')),
     path('', home, name='home')
 
 ]

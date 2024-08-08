@@ -3,6 +3,7 @@ from django.contrib.auth import logout, login as auth_login, login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import CustomUser
 from django.contrib.auth.hashers import check_password
+
 def register(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -12,6 +13,8 @@ def register(request):
         middle_name = request.POST['middle_name']
         role = request.POST['role']
         user = CustomUser.objects.create_user(email=email, password=password, first_name=first_name, last_name=last_name, middle_name=middle_name, role=role)
+        if role == 1:
+            user.is_staff = True
         login(request, user)
         return redirect('home')
     return render(request, 'authentication/register.html')
