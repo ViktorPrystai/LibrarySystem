@@ -78,6 +78,16 @@ WSGI_APPLICATION = 'library.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# You can choose database in .env, .ini or settings.py file in root library folder
+# See docs: https://pypi.org/project/python-decouple
+
+# Exammple:
+    # SECRET_KEY = "you_secret_key"
+    # DEBUG = True
+    #ALLOWED_HOSTS = [".localhost", "127.0.0.1", "[::1]", "*"]
+
+
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
