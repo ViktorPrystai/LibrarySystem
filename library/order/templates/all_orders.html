@@ -3,26 +3,42 @@
 {% block title %}All Orders - Library Management System{% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-10">
+<div class="row">
+        <div class="col-md-12">
             <h2>All Orders</h2>
 
-            <ul class="list-group">
-                {% for order in orders %}
-                    <li class="list-group-item">
-                        <strong>Order ID:</strong> {{ order.id }} <br>
-                        <strong>User:</strong> {{ order.user.username }} <br>
-                        <strong>Book ID:</strong> {{ order.book.id }} <br>
-                        <strong>Created At:</strong> {{ order.created_at }} <br>
-                        {% if order.end_at %}
-                            <strong>Returned At:</strong> {{ order.end_at }} <br>
-                        {% endif %}
-                        <strong>Planned Return At:</strong> {{ order.plated_end_at }} <br>
-                    </li>
-                {% empty %}
-                    <li class="list-group-item">No orders found.</li>
-                {% endfor %}
-            </ul>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID Замовлення</th>
+                        <th>Книга</th>
+                        <th>Користувач</th>
+                        <th>Статус</th>
+                        <th>Дата створення</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.book.title }}</td>
+                        <td>{{ order.user.email }}</td>
+                        <td>{{ order.get_status_display }}</td>
+                        <td>{{ order.created_at }}</td>
+                        <td>
+                            {% if order.status == 'open' %}
+                                <a href="{% url 'close_order' order.id %}" class="btn btn-danger">Закрити замовлення</a>
+                            {% elif order.status == 'pending' %}
+                                <a href="{% url 'confirm_order' order.id %}" class="btn btn-success">Підтвердити закриття</a>
+                            {% elif order.status == 'closed' %}
+                                <span class="text-muted">Замовлення закрите</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

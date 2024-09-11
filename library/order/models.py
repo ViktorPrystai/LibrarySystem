@@ -20,12 +20,18 @@ class Order(models.Model):
            param plated_end_at: Describes the planned return period of the book (2 weeks from the moment of creation).
            type plated_end_at: int (timestamp)
        """
+    STATUS_CHOICES = (
+        ('open', 'Open'),
+        ('pending', 'Pending Confirmation'),
+        ('closed', 'Closed'),
+    )
     id = models.AutoField(primary_key=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, default=None)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     end_at = models.DateTimeField(default=None, null=True, blank=True)
     plated_end_at = models.DateTimeField(default=None)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
 
     def __str__(self):
         """

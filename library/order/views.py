@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.http import HttpResponseForbidden
 from .models import Order
 from book.models import Book
 
@@ -40,15 +41,31 @@ def my_orders_view(request):
 
 
 @login_required
-def close_order_view(request, order_id):
-    try:
-        order = Order.objects.get(pk=order_id)
-        order.end_at = timezone.now()
+def request_close_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.user == order.user and order.status == 'open':
+        order.status = 'pending'
+        order.save()
+        return redirect('my_orders')
+    return HttpResponseForbidden("You are not allowed to close this order.")
+
+@login_required
+def close_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.user.role == 1:
+        order.status = 'closed'
         order.save()
         return redirect('all_orders')
-    except Order.DoesNotExist:
-        return render(request, 'error.html', {'error': 'Order does not exist.'})
+    return HttpResponseForbidden("Only librarians can close orders.")
 
+@login_required
+def confirm_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.user.role == 1 and order.status == 'pending':
+        order.status = 'closed'
+        order.save()
+        return redirect('all_orders')
+    return HttpResponseForbidden("You are not allowed to confirm this order.")
 
 @login_required
 def all_orders_view(request):
