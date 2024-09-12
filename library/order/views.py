@@ -72,3 +72,8 @@ def all_orders_view(request):
     orders = Order.objects.all()
     return render(request, 'all_orders.html', {'orders': orders})
 
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'order_detail.html', {'order': order})
+

@@ -22,17 +22,19 @@
                     {% for order in orders %}
                     <tr>
                         <td>{{ order.id }}</td>
-                        <td>{{ order.book.title }}</td>
+                        <td>{{ order.book.name}}</td>
                         <td>{{ order.user.email }}</td>
                         <td>{{ order.get_status_display }}</td>
                         <td>{{ order.created_at }}</td>
                         <td>
+                            <a href="{% url 'order_detail' order.id %}" class="btn btn-info">View Details</a>
+
                             {% if order.status == 'open' %}
                                 <a href="{% url 'close_order' order.id %}" class="btn btn-danger">Закрити замовлення</a>
                             {% elif order.status == 'pending' %}
                                 <a href="{% url 'confirm_order' order.id %}" class="btn btn-success">Підтвердити закриття</a>
                             {% elif order.status == 'closed' %}
-                                <span class="text-muted">Замовлення закрите</span>
+{#                                <span class="text-muted">Замовлення закрите</span>#}
                             {% endif %}
                         </td>
                     </tr>

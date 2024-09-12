@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Details - Library Management System{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Order Details</h2>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>Order ID:</strong> {{ order.id }} <br>
+                    <strong>Book Title:</strong> {{ order.book.name }} <br>
+                    <strong>Book ID:</strong> {{ order.book.id }} <br>
+                    <strong>User:</strong> {{ order.user.email }} <br>
+                    <strong>Status:</strong> {{ order.get_status_display }} <br>
+                    <strong>Created At:</strong> {{ order.created_at }} <br>
+                    <strong>Planned Return At:</strong> {{ order.plated_end_at }} <br>
+                    {% if order.end_at %}
+                        <strong>Returned At:</strong> {{ order.end_at }} <br>
+                    {% endif %}
+                </li>
+            </ul>
+
+            <a href="{% url 'all_orders' %}" class="btn btn-secondary mt-3">Back to All Orders</a>
+
+{#            {% if order.status == 'open' %}#}
+{#                <a href="{% url 'close_order' order.id %}" class="btn btn-danger mt-3">Закрити замовлення</a>#}
+{#            {% elif order.status == 'pending' %}#}
+{#                <a href="{% url 'confirm_order' order.id %}" class="btn btn-success mt-3">Підтвердити закриття</a>#}
+{#            {% endif %}#}
+        </div>
+    </div>
+{% endblock %}
