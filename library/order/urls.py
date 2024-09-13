@@ -8,5 +8,6 @@ urlpatterns = [
     path('order/close/<int:order_id>/', views.close_order, name='close_order'),
     path('order/<int:order_id>/detail/', views.order_detail, name='order_detail'),
     path('order/confirm/<int:order_id>/', views.confirm_order, name='confirm_order'),
+    path('books/<int:book_id>/get-title/', views.get_book_title, name='get_book_title'),
     path('all-orders/', views.all_orders_view, name='all_orders'),
 ]

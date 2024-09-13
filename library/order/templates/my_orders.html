@@ -10,8 +10,9 @@
             <ul class="list-group">
                 {% for order in orders %}
                     <li class="list-group-item">
-                        <strong>Order ID:</strong> {{ order.id }} <br>
+{#                        <strong>Order ID:</strong> {{ order.id }} <br>#}
                         <strong>Book ID:</strong> {{ order.book.id }} <br>
+                        <strong>Book Title:</strong> {{ order.book.name }} <br>
                         <strong>Created At:</strong> {{ order.created_at }} <br>
                         {% if order.end_at %}
                             <strong>Returned At:</strong> {{ order.end_at }} <br>

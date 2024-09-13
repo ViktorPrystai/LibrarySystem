@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.utils import timezone
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from .models import Order
 from book.models import Book
 
@@ -33,6 +32,14 @@ def create_order_view(request):
             return render(request, 'create_order.html', {'error': f'Error creating order: {str(e)}'})
 
     return render(request, 'create_order.html')
+
+@login_required
+def get_book_title(request, book_id):
+    try:
+        book = Book.objects.get(pk=book_id)
+        return JsonResponse({'title': book.name})
+    except Book.DoesNotExist:
+        return JsonResponse({'title': None}, status=404)
 
 @login_required
 def my_orders_view(request):
