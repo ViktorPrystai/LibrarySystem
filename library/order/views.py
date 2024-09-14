@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 from .models import Order
 from book.models import Book
 
@@ -64,6 +65,17 @@ def close_order(request, order_id):
         order.save()
         return redirect('all_orders')
     return HttpResponseForbidden("Only librarians can close orders.")
+
+
+@login_required
+def delete_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    if request.user.role == 1 and order.status == 'closed':
+        order.delete()
+        return HttpResponseRedirect(reverse('all_orders'))
+    else:
+        return HttpResponseForbidden("Only librarians can delete closed orders.")
 
 @login_required
 def confirm_order(request, order_id):

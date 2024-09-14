@@ -34,6 +34,7 @@
                             {% elif order.status == 'pending' %}
                                 <a href="{% url 'confirm_order' order.id %}" class="btn btn-success">Підтвердити закриття</a>
                             {% elif order.status == 'closed' %}
+                                <a href="{% url 'delete_order' order.id %}" class="btn btn-danger">Видалити</a>
 {#                                <span class="text-muted">Замовлення закрите</span>#}
                             {% endif %}
                         </td>
